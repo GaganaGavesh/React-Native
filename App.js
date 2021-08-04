@@ -1,34 +1,57 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   return (
-    <View style={styles.screen}>
+    <View
+      style={{
+        padding: 50,
+        flexDirection: "row", 
+        height: 300,
+        justifyContent: "space-between",
+        alignItems: "stretch",
+      }}
+    >
       <View
-        style={styles.container}
+        style={{
+          backgroundColor: "red",
+          justifyContent: "center",
+          flex: 1, 
+          alignItems: "flex-start ",
+        }}
       >
-        <TextInput placeholder="Course Goal" style={styles.inputContainer} />
-        <Button title="ADD" />
+        <Text>1</Text>
       </View>
-      <View></View>
+      <View
+        style={{
+          backgroundColor: "blue",
+          justifyContent: "center",
+          flex: 2,
+          alignItems: "center",
+        }}
+      >
+        <Text>2</Text>
+      </View>
+      <View
+        style={{
+          backgroundColor: "green",
+          justifyContent: "center",
+          flex: 3,
+          alignItems: "center",
+        }}
+      >
+        <Text>3</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    padding: 30,
-  },
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  inputContainer: {
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-    width: "80%",
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
 });
