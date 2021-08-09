@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
 
 import GameOverScreen from "./screens/GameOverScreen";
 import GameScreen from "./screens/GameScreen";
@@ -12,8 +12,8 @@ import StartGameScreen from "./screens/StartGameScreen";
 const fetchFonts = () => {
   //this returns a promise where we can use this to conditionally add things for the completion and Error states
   return Font.loadAsync({
-    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
     //we tell react where our fonts live and names to map them for use inside the app
   });
 };
@@ -71,10 +71,11 @@ export default function App() {
   }
 
   return (
-    <View style={styles.screen}>
-      <Header title="Guess a number" />
-      {content}
-    </View>
+    //meka athule thawa view ekakin content eka wrap kaloth meka athule content eka pennanne nathuwa yanawa
+    <SafeAreaView style={styles.screen}>
+        <Header title="Guess a number" />
+        {content}
+    </SafeAreaView>
   );
 }
 
