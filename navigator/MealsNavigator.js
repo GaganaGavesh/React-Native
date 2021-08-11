@@ -1,6 +1,9 @@
+import React from 'react';
 import { createStackNavigator } from "react-navigation-stack"; //for react navigation 4
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
+import { Ionicons } from '@expo/vector-icons';
 //we need to install react-navigation-stack
 //We tell this
 //1. what are the different screens we have
@@ -8,6 +11,7 @@ import { createAppContainer } from "react-navigation";
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import Colors from "../constatns/Colors";
+import FavouriteScreen from '../screens/FavoritesScreen';
 import MealDetailsScreen from "../screens/MealDetailScreen";
 
 //createStackNavigator meka return karanawa NavigationNavigator ekak
@@ -48,9 +52,46 @@ const MealsNavigator = createStackNavigator({
       headerTintColor:
         Platform.OS === "android" ? "white" : Colors.primaryColor,
 },
+//NAVIGATION OPTIONS IN THE CONFIG (2ND ARGUMENT) OF NAVIGATOR ONLY MATTERS IF THE NAVIGATOR IS USED INSIDE OF ANOTHER NAVIGATOR//
 //initialRouteName: 'MealDetail',
 mode: 'modal'});
 
+
+//Dan ape tab navigator eka Mealsnavogator eka aragena tynne so
+//apata tabnavigator eke stack navigator ekak render karanna ahaki\
+//so api e dekama tyna navigator eka thama export karanne me page eken
+const MealsFavTabNavigator = createBottomTabNavigator({
+  //tab bar eke Text ekata ganne Meals & Favourites kiyana key deka
+  Meals: {
+    screen: MealsNavigator,//mealsNavigator kiyana eken enneth component ekak neh, screen ekata dannath ona component ekak
+    //so apata MealsNavigator ekama danna pluwan methanata
+    navigationOptions: {
+      tabBarIcon: (tabInfo) =>{
+        return (<Ionicons name="ios-restaurant" size={25} color={tabInfo.tintColor}/>);
+      }
+    },//me navigationoptions eken kiyanne ape stack navigation ekata tyna option saha Meals tab navigator eka 
+    //tyenna ona widiya gana
+  },
+  Favourites: {
+    screen: FavouriteScreen,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) =>{
+        return (<Ionicons name="ios-star" size={25} color={tabInfo.tintColor}/>);
+      },
+    tabBarLabel: 'Favourites!',
+    
+    },
+  },
+},{
+  tabBarOptions: {
+    activeTintColor: Colors.accent,
+  }
+});
+
 //you want to wrap your root navigator with the createContainer component
 //export default MealsNavigator;
-export default createAppContainer(MealsNavigator);
+//export default createAppContainer(MealsNavigator);
+export default createAppContainer(MealsFavTabNavigator);
+//You should always have one root navigator
+//e root navigator ekee nested navigators tyrnna pluwn, methana MealsFavTabNavigator eke
+//MealsNavigator eka tynawa wage
