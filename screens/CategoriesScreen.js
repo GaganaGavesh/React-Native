@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Colors from "../constatns/Colors";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
+import Colors from "../constatns/Colors";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryGridTile from "../components/CategoryGridTile";
+import HeaderButton from "../components/HeaderButton";
 
 const CategoriesScreen = (props) => {
   console.log(props);
@@ -61,13 +63,28 @@ const CategoriesScreen = (props) => {
 
 //ReactNavigation eken balanawa me property eka navigation ekata dapu component wala tyeda kiyala
 //me property ekata apata object assign karanna pluwan, ethakota apata navigation eka override karaganna ahaki
-CategoriesScreen.navigationOptions = {
-  headerTitle: "Meal Categories",
-  headerStyle: {
-    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-  },
-  //Goto official docs to read more about the navigation properties
-  headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+CategoriesScreen.navigationOptions = (navData) => {
+  //console.log('Nav data from Category Screen', navData);
+  return {
+    headerTitle: "Meal Categories",
+    headerStyle: {
+      backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+    },
+    //Goto official docs to read more about the navigation properties
+    headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+    //Header button eka side drawer ekata ganna
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({

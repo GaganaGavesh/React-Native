@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import { CATEGORIES, MEALS } from "../data/dummy-data";
-import MealItem from "../components/MealItem";
+import MealsList from "../components/MealsList";
 
 const CategoryMealScreen = (props) => {
   //console.log('category meal props', props)
@@ -22,34 +22,9 @@ const CategoryMealScreen = (props) => {
     (meal) => meal.categoryIds.indexOf(catId) >= 0 //category id eka his nam -1 thama enne
   );
 
-  const renderMealItem = (itemData) => {
-    return (
-      <MealItem
-        onSelectMeal={() => {
-          props.navigation.navigate({
-            routeName: "MealDetail",
-            params: { mealId: itemData.item.id },
-          });
-        }}
-        title={itemData.item.title}
-        complexity={itemData.item.complexity}
-        affordability={itemData.item.affordability}
-        duration={itemData.item.duration}
-        image={itemData.item.imageUrl}
-      />
-    );
-  };
-
-  return (
-    <View style={styles.screen}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item, index) => item.id}
-        renderItem={renderMealItem}
-        style={{ width: "100%" }}
-      />
-    </View>
-  );
+  return <MealsList listData={displayedMeals} navigation={props.navigation} />;
+  // navigation props nestes component walata enne ne navigation eke dapu main component walata witharai enne, so api use karana
+  //nested ewata navigation prop eka chain karaganna ona api
 };
 
 //meka object property ekak neeh
@@ -65,14 +40,5 @@ CategoryMealScreen.navigationOptions = (navigationData) => {
     headerTitle: selectedCategory.title,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    justifyContent: "center", //along with the main axis
-    alignItems: "center", //along with the cross axis
-    flex: 1,
-    margin: 10,
-  },
-});
 
 export default CategoryMealScreen;
