@@ -1,24 +1,46 @@
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import CustomHeaderButton from "../components/HeaderButton";
 import { MEALS } from "../data/dummy-data";
+
+const ListItem = (props) => {
+  return (
+    <View style={styles.listItem}>
+      <Text>{props.children}</Text>
+    </View>
+  );
+};
 
 const MealDeteilScreen = (props) => {
   //console.log('MealDetail Screen', props);
   const mealId = props.navigation.getParam("mealId");
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
   return (
-    <View style={styles.screen}>
-      <Text>{selectedMeal.title}</Text>
-      <Button
-        title="Go Back to Categories"
-        onPress={() => {
-          props.navigation.popToTop();
-        }}
-      />
-    </View>
+    <ScrollView>
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
+      <View style={styles.details}>
+        <Text>{selectedMeal.duration}m</Text>
+        <Text>{selectedMeal.complexity.toUpperCase()}</Text>
+        <Text>{selectedMeal.affordability.toUpperCase()}</Text>
+      </View>
+      <Text style={styles.title}>Ingrediants</Text>
+      {selectedMeal.ingredients.map((ingrediant, index) => (
+        <ListItem key={index}>{ingrediant}</ListItem>
+      ))}
+      <Text style={styles.title}>Steps</Text>
+      {selectedMeal.steps.map((step, index) => (
+        <ListItem key={index}>{step}</ListItem>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -34,8 +56,8 @@ MealDeteilScreen.navigationOptions = (navigationData) => {
     //headerRight: <Text>FAV!</Text>,//meke styling ehama apata thaniyama manage karaganna amarui so api
     //react-navigation-header-buttons liyana package eka gannawa
     headerRight: (
-        //methana prop ekak widiyaata danawa aita meka render karaganna ona wena component eka HeaderButton eka.
-        //e component eke thama me item eka render wenneeh
+      //methana prop ekak widiyaata danawa aita meka render karaganna ona wena component eka HeaderButton eka.
+      //e component eke thama me item eka render wenneeh
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
         {/* methanin thema header ekata icon add karanne so apata ona tjharamak Item tag eka yatate add karaganna pluwn */}
         {/* title eka thama key eka, so wenas title tikak dagemna yamma ona api icon godak danawa nam */}
@@ -52,10 +74,27 @@ MealDeteilScreen.navigationOptions = (navigationData) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    justifyContent: "center", //along with the main axis
-    alignItems: "center", //along with the cross axis
-    flex: 1,
+  image: {
+    width: "100%",
+    height: 200,
+  },
+  details: {
+    flexDirection: "row",
+    padding: 15,
+    justifyContent: "space-around",
+  },
+  listItem: {
+    marginVertical: 10, 
+    marginHorizontal: 20,
+    borderColor: '#CCC',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 8,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 22,
+    textAlign: "center",
   },
 });
 
