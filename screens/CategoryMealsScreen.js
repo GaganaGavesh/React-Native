@@ -1,24 +1,23 @@
-import React from "react";
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Platform,
-  Text,
-  View,
-} from "react-native";
+import React, { useState } from "react";
+import { useSelector } from 'react-redux';//helps to select slice of our state and use it in this compoenent
+//class compoenent ekak nam connect eka thama use karanne sfc wla meka gaththama lesi
 
-import { CATEGORIES, MEALS } from "../data/dummy-data";
+import { CATEGORIES } from "../data/dummy-data";
 import MealsList from "../components/MealsList";
 
 const CategoryMealScreen = (props) => {
   //console.log('category meal props', props)
   //getParams allow us to extract the data using the keys of the params we have sent from the previous component
 
+  //useSelector eka function ekak gannawa eka redux eken execute karanawa 
+  //methenta danne rootReducer eke tyna key identifier eka, ethakota e reducer eka responsible state eka apata ewanawa
+  //dan api reducer ekee dapu state eke key eka danna ona
+  const availableaMeals = useSelector(state => state.meals.filteredMeals);
+
   const catId = props.navigation.getParam("categoryId");
 
   //const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
-  const displayedMeals = MEALS.filter(
+  const displayedMeals = availableaMeals.filter(
     (meal) => meal.categoryIds.indexOf(catId) >= 0 //category id eka his nam -1 thama enne
   );
 
