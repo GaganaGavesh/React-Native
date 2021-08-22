@@ -4,6 +4,8 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import Colors from "../constatns/Colors";
 import HeaderButton from "../components/HeaderButton";
+import { useDispatch } from "react-redux";
+import { setFilters, SET_FILTERS } from "../store/actions/meals";
 
 const FilterSwitch = (props) => {
   return (
@@ -25,6 +27,8 @@ const FiltersScreen = (props) => {
   const [isVegan, setIsVegan] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
 
+  const dispatch = useDispatch();
+
   //useCallback eka apata apita ona welawata witharak me function eka recreate karala denawa
   //so un necessary re creation eka nawaththanawa, cached karagena innawa parana function eka
   const saveFilters = useCallback(() => {
@@ -33,16 +37,17 @@ const FiltersScreen = (props) => {
       lactoseFree: isLactoseFree,
       vegan: isVegan,
       isVegetarian: isVegetarian,
-    }
+    };
 
-    console.log(appliedFilters);
-  }, [isGlutesFree, isLactoseFree, isVegan, isVegetarian]);
+    //console.log(appliedFilters);
+    dispatch(setFilters(appliedFilters)); // meka change wenne nee enisa meka nisa rerender wenne nee
+  }, [isGlutesFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
 
   //we can use setParams to update the params values of the currently loaded screen
   //IF YOU HAD EXISTING PARAMS, YOU CAN STILL USE setParams(0 LIKE THIS, YOUR NEW PARAMS GET MERGED WITH THE EXISTING PARAMS
   //Existing params kiyanne api mekata ena screen eken me screen ekata ewana params thama
   useEffect(() => {
-    props.navigation.setParams({save: saveFilters});
+    props.navigation.setParams({ save: saveFilters });
     //save variable store the reference of the saveFilters function, meka ganna thanakin call karanna pluwn dan
   }, [saveFilters]);
   return (
@@ -94,10 +99,10 @@ FiltersScreen.navigationOptions = (navData) => {
           onPress={() => {
             //dan filter values tika methenta ganna wela tynwa, so ewa uda component eken ganna onaa
             //api ape component eke data navigationOptions walin change karanna balanawa nam, setParam thama karana widiya
-            navData.navigation.getParam('save')();//meken set kala params ganna pluwn 
+            navData.navigation.getParam("save")(); //meken set kala params ganna pluwn
             //function eka nathuwa navData.navigation.getParam('save') meka dammathn athi, ethakota automa call wenawa
             //execute wenawa
-          }} 
+          }}
         />
       </HeaderButtons>
     ),
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "70%", //content eka justify wenna nam api justify karana ekata width ekak set karanna onaa
-    marginVertical: 15,//ekakata eka gane render wena nisa mekata margin eka danna pluwan
+    marginVertical: 15, //ekakata eka gane render wena nisa mekata margin eka danna pluwan
   },
   title: {
     fontSize: 22,

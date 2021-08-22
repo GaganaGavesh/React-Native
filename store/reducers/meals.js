@@ -29,14 +29,27 @@ const mealsReducer = (state = initialState, action) => {
         updatedFavMeals.splice(existingIndex, 1); //remove the meal from the above array
         return { ...state, favouriteMeals: updatedFavMeals };
       } else {
-          const meal = state.meals.find(meal => meal.id === action.mealId);//meal eka find karagena favMeals ekata concat //karanawa
-          return {...state, favouriteMeals: state.favouriteMeals.concat(meal)};
+        const meal = state.meals.find((meal) => meal.id === action.mealId); //meal eka find karagena favMeals ekata concat //karanawa
+        return { ...state, favouriteMeals: state.favouriteMeals.concat(meal) };
       }
     case SET_FILTERS:
-        const appliedFilters = action.filters;
-        const filteredMeals = state.meals.filter(meal => {
-            if(appliedFilters.gl)
-        })//filter gives new array, we no need to copy items to a new array
+      const appliedFilters = action.filters;
+      const updatedFilteredMeals = state.meals.filter((meal) => {
+        if (appliedFilters.glutenFree && !meal.isGlutenFree) {
+          return false;
+        }
+        if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
+          return false;
+        }
+        if (appliedFilters.isVegetarian && !meal.isVegetarian) {
+          return false;
+        }
+        if (appliedFilters.vegan && !meal.isVegan) {
+          return false;
+        }
+        return true;
+      }); //filter gives new array, we no need to copy items to a new array
+      return { ...state, filteredMeals: updatedFilteredMeals };
 
     default:
       return state;
