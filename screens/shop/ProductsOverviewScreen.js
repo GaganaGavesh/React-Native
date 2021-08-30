@@ -1,9 +1,11 @@
 import React from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
+import * as cartActions from "../../store/actions/cart";
+import HeaderButton from "../../components/UI/HeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
-import * as cartActions from '../../store/actions/cart';
 
 const ProductOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
@@ -36,6 +38,15 @@ const ProductOverviewScreen = (props) => {
 ProductOverviewScreen.navigationOptions = {
   // header eka gahanawa methanin screen ekata
   headerTitle: "All Products",
+  headerRight: (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        title="Cart"
+        iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+        onPress={() => {}}
+      />
+    </HeaderButtons>
+  ),
 };
 
 const styles = StyleSheet.create({});
